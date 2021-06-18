@@ -6,18 +6,20 @@ const timeList = document.querySelector('#time-list');
 const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
 let time = 0;
+let timer; // Добавлено в ДЗ.
 let score = 0;
 let missCount = 0;
 
 //#region Код с ДЗ
-
+// Случайный RGB цвет для кружков
 function randomColor() {
     let r = getRandomNumber(0, 255);
     let g = getRandomNumber(0, 255);
     let b = getRandomNumber(0, 255);
     return `rgb(${r}, ${g}, ${b})`;
 }
-
+// Генератор кнопок с выбором времени игры
+addTimeBtns();
 function addTimeBtns() {
     timeList.innerHTML = ``;
     let numBtns = 6;
@@ -32,20 +34,27 @@ function addTimeBtns() {
         timeList.append(timeBtn);
     }
 }
+// Функция включения и остановки таймера игры
+function toggleTimer(status) {
+    if (status === 'start') {
+        timer = setInterval(decreaseTime, 1000);
+        console.log('start');
 
-addTimeBtns();
+    } else if (status === 'stop') {
+        clearInterval(timer);
+        console.log('stop');
+
+    }
+}
 
 //#endregion
 
 
 //#region Код с Урока
-
-//#region Оглашение Функций
 function setTime(value) {
     timeEl.innerHTML = `00:${value}`;
 }
 
-// Добавлено условие "состояние игры" для отслеживания промахов.
 function finishGame() {
     // Добавлены "Промахи" из ДЗ
     board.innerHTML = `
@@ -53,14 +62,18 @@ function finishGame() {
     <h3>Промахи: <span class="primary">${missCount}</span></h3>
     `;
     timeEl.parentNode.classList.add('hide');
+    // Добавлено условие "состояние игры" для отслеживания промахов.
     board.classList.remove('GAME');
+    toggleTimer('stop');
 }
-// Добавлено "состояние игры" для отслеживания промахов.
+
 function startGame() {
-    setInterval(decreaseTime, 1000);
+    // setInterval(decreaseTime, 1000);
     createRandomCircle();
     setTime(time);
+    // Добавлено "состояние игры" для отслеживания промахов.
     board.classList.add('GAME');
+    toggleTimer('start');
 }
 
 function decreaseTime() {
@@ -99,7 +112,6 @@ function createRandomCircle() {
 function getRandomNumber(minValue, maxValue) {
     return (Math.random() * (maxValue - minValue) + minValue);
 }
-//#endregion
 
 //#region Обработчики Событий
 startBtn.addEventListener('click', (event) => {
