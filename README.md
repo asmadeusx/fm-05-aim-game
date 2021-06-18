@@ -1,2 +1,2 @@
-# fm-5-aim-game
+# fm-05-aim-game
 Frontend marathon, lesson 5
