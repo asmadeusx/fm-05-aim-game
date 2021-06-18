@@ -92,6 +92,7 @@ h1 {
   box-shadow: -8px -8px 20px #2A333D, 10px 7px 20px #475462;
   border-radius: 30px;
   overflow: hidden;
+  flex-direction: column; /* Добавлено из ДЗ */
 }
 
 .circle {

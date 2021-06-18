@@ -7,6 +7,7 @@ const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
 let time = 0;
 let score = 0;
+let missCount = 0;
 
 //#region Код с ДЗ
 
@@ -44,15 +45,22 @@ function setTime(value) {
     timeEl.innerHTML = `00:${value}`;
 }
 
+// Добавлено условие "состояние игры" для отслеживания промахов.
 function finishGame() {
-    board.innerHTML = `<h1>Cчет: <span class="primary">${score}</span></h1>`;
+    // Добавлены "Промахи" из ДЗ
+    board.innerHTML = `
+    <h1>Cчет: <span class="primary">${score}</span></h1>
+    <h3>Промахи: <span class="primary">${missCount}</span></h3>
+    `;
     timeEl.parentNode.classList.add('hide');
+    board.classList.remove('GAME');
 }
-
+// Добавлено "состояние игры" для отслеживания промахов.
 function startGame() {
     setInterval(decreaseTime, 1000);
     createRandomCircle();
     setTime(time);
+    board.classList.add('GAME');
 }
 
 function decreaseTime() {
@@ -106,13 +114,16 @@ timeList.addEventListener('click', (event) => {
         startGame();
     }
 });
-
+// Добавлено условие "состояние игры" для отслеживания промахов.
 board.addEventListener('click', (evemt) => {
     if (event.target.classList.contains('circle')) {
         score++;
         event.target.remove();
         createRandomCircle();
+    } else if (evemt.target.classList.contains('board') && evemt.target.classList.contains('GAME')) {
+        missCount++;
     }
+    
 });
 //#endregion
 
