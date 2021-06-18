@@ -38,12 +38,8 @@ function addTimeBtns() {
 function toggleTimer(status) {
     if (status === 'start') {
         timer = setInterval(decreaseTime, 1000);
-        console.log('start');
-
     } else if (status === 'stop') {
         clearInterval(timer);
-        console.log('stop');
-
     }
 }
 
