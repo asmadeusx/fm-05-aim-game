@@ -1,6 +1,6 @@
 'use strict';
 
-const startBtn = document.querySelector('#start');
+const startBtn = document.querySelector('#start-btn');
 const screens = document.querySelectorAll('.screen');
 const timeList = document.querySelector('#time-list');
 const sizeList = document.querySelector('#size-list');
@@ -114,13 +114,13 @@ function circleFading() {
         }
         case 'Сложно': {
             circle.classList.add('circleFadingHard');
-            setTimeout(() => {circle.classList.add('circleFaded');}, 1000);
+            setTimeout(() => {circle.classList.add('circleFaded');}, 500);
             break;
         }
     }   
 }
 
-setInterval(removeFadedCircle, 500);
+setInterval(removeFadedCircle, 200);
 function removeFadedCircle() {
     const circle = document.querySelector('.circle');
     if (circle && circle.classList.contains('circleFaded')) {
@@ -158,8 +158,7 @@ function getRandomNumber(minValue, maxValue) {
 //#endregion
 
 //#region Обработчики Событий
-startBtn.addEventListener('click', (event) => {
-    event.preventDefault();
+startBtn.addEventListener('click', () => {
     screens[0].classList.add('up');
 });
 

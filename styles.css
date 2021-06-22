@@ -65,7 +65,8 @@ h1 {
 .time-btn,
 .size-btn,
 .difficult-btn,
-.startAgain-btn {
+.startAgain-btn,
+.start-btn {
   background-color: transparent;
   border: 2px solid #C0C0C0;
   color: #fff;
@@ -82,7 +83,8 @@ h1 {
 .time-btn:hover,
 .size-btn:hover,
 .difficult-btn:hover,
-.startAgain-btn:hover {
+.startAgain-btn:hover,
+.start-btn:hover {
   border: 2px solid #16D9E3;
   color: #16D9E3;
 }
@@ -129,5 +131,5 @@ h1 {
 
 .circleFadingHard {
   opacity: 0;
-  transition: opacity 1s ease-out;
+  transition: opacity 0.5s ease-out;
 }
