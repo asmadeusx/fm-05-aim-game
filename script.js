@@ -9,6 +9,7 @@ const bgColorBtnsList = document.querySelector('#bgColorBtns-list');
 const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
 const startAgainBtn = document.querySelector('#startAgain-btn');
+let dingDong = new Audio('button.mp3');
 let time = 0;
 let size;
 let difficult = 'Легко';
@@ -310,6 +311,7 @@ board.addEventListener('click', (event) => {
         score++;
         event.target.remove();
         createRandomCircle();
+        dingDong.play();
     } else if (event.target.classList.contains('board') && event.target.classList.contains('GAME')) {
         missCount++;
     }
