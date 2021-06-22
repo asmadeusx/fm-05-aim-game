@@ -131,6 +131,7 @@ function finishGame() {
     board.innerHTML = `
     <h1>Cчет: <span class="primary">${score}</span></h1>
     <h3>Промахи: <span class="primary">${missCount}</span></h3>
+    <h3>Меткость: <span class="primary">${((100 - ((missCount / score) * 100))).toFixed(0)}% </span></h3>
     `;
     timeEl.parentNode.classList.add('hide');
     board.classList.remove('GAME');
@@ -312,6 +313,8 @@ startAgainBtn.addEventListener('click', () => {
         screen.classList.remove('up');
         board.innerHTML = ``;
         timeEl.parentNode.classList.remove('hide');
+        score = 0;
+        missCount = 0;
     });
 });
 //#endregion
