@@ -9,7 +9,8 @@ const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
 const startAgainBtn = document.querySelector('#startAgain-btn');
 let time = 0;
-let size = 500;
+let size;
+let difficult = 'Легко';
 let timer;
 let score = 0;
 let missCount = 0;
@@ -35,24 +36,6 @@ function addTimeBtns() {
         </button>
         `;
         timeList.append(timeBtn);
-    }
-}
-
-addSizeBtns();
-function addSizeBtns() {
-    sizeList.innerHTML = ``;
-    let numBtns = 3;
-    const boardSizes = [
-        '300', '500', '700'
-    ];
-    for (let i = 0; i <= numBtns - 1; i++) {
-        const sizeBtn = document.createElement('li');
-        sizeBtn.innerHTML = `
-        <button class="size-btn" data-size=${boardSizes[i]}>
-          ${boardSizes[i]}
-        </button>
-        `;
-        sizeList.append(sizeBtn);
     }
 }
 
@@ -118,12 +101,27 @@ function decreaseTime() {
 
 function circleFading() {
     const circle = document.querySelector('.circle');
-    circle.classList.add('circleFading');
-    setTimeout(() => {circle.classList.add('circleFaded');}, 4000);
+    switch(difficult) {
+        case 'Легко': {
+            circle.classList.add('circleFadingEasy');
+            setTimeout(() => {circle.classList.add('circleFaded');}, 5000);
+            break;
+        }
+        case 'Нормально': {
+            circle.classList.add('circleFadingMedium');
+            setTimeout(() => {circle.classList.add('circleFaded');}, 4000);
+            break;
+        }
+        case 'Сложно': {
+            circle.classList.add('circleFadingHard');
+            setTimeout(() => {circle.classList.add('circleFaded');}, 1000);
+            break;
+        }
+    }   
 }
 
-setInterval(deleteFadedCircle, 500);
-function deleteFadedCircle() {
+setInterval(removeFadedCircle, 500);
+function removeFadedCircle() {
     const circle = document.querySelector('.circle');
     if (circle && circle.classList.contains('circleFaded')) {
         circle.remove();
@@ -149,9 +147,9 @@ function createRandomCircle() {
     circle.style.left = `${x}px`;
 
     circle.style.background = randomColor();
-    setTimeout(circleFading, 700);
 
     board.append(circle);
+    setTimeout(circleFading, 300);
 }
 
 function getRandomNumber(minValue, maxValue) {
@@ -172,28 +170,37 @@ timeList.addEventListener('click', (event) => {
     }
 });
 
-sizeList.addEventListener('click', (event) => {
-    if (event.target.classList.contains('size-btn')) {
-        size = parseInt(event.target.getAttribute('data-size'));
-        screens[2].classList.add('up');
-        board.style.width = `${size}px`;
-        board.style.height = `${size}px`;
-    }
-});
-
 difficultList.addEventListener('click', (event) => {
     if (event.target.classList.contains('difficult-btn')) {
-        screens[3].classList.add('up');
+        difficult = (event.target.getAttribute('data-difficult'));
+        screens[2].classList.add('up');
+        console.log(difficult);
+        switch(difficult) {
+            case 'Легко': {
+                size = 300;
+                break;
+            }
+            case 'Нормально': {
+                size = 500;
+                break;
+            }
+            case 'Сложно': {
+                size = 700;
+                break;
+            }
+        }
+        board.style.width = `${size}px`;
+        board.style.height = `${size}px`;
         startGame();
     }
 });
 
-board.addEventListener('click', (evemt) => {
+board.addEventListener('click', (event) => {
     if (event.target.classList.contains('circle')) {
         score++;
         event.target.remove();
         createRandomCircle();
-    } else if (evemt.target.classList.contains('board') && evemt.target.classList.contains('GAME')) {
+    } else if (event.target.classList.contains('board') && event.target.classList.contains('GAME')) {
         missCount++;
     }
     
@@ -202,6 +209,8 @@ board.addEventListener('click', (evemt) => {
 startAgainBtn.addEventListener('click', () => {
     screens.forEach((screen) => {
         screen.classList.remove('up');
+        board.innerHTML = ``;
+        timeEl.parentNode.classList.remove('hide');
     });
 });
 //#endregion

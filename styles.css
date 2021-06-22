@@ -117,7 +117,17 @@ h1 {
   opacity: 1;
 }
 
-.circleFading {
+.circleFadingEasy {
   opacity: 0;
   transition: opacity 5s ease-out;
+}
+
+.circleFadingMedium {
+  opacity: 0;
+  transition: opacity 4s ease-out;
+}
+
+.circleFadingHard {
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }
