@@ -5,6 +5,7 @@ const screens = document.querySelectorAll('.screen');
 const timeList = document.querySelector('#time-list');
 const sizeList = document.querySelector('#size-list');
 const difficultList = document.querySelector('#difficult-list');
+const bgColorBtnsList = document.querySelector('#bgColorBtns-list');
 const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
 const startAgainBtn = document.querySelector('#startAgain-btn');
@@ -14,6 +15,29 @@ let difficult = 'Легко';
 let timer;
 let score = 0;
 let missCount = 0;
+let bgColor;
+const colors = [
+    {
+        'bgName': 'Красный',
+        'bgScreen': 'linear-gradient(90deg, rgba(121,9,9,1) 0%, rgba(255,107,107,1) 100%)',
+        'bgBoard': 'linear-gradient(118.38deg, rgb(60, 41, 41) -4.6%, rgb(99, 72, 72) 200.44%)',
+    },
+    {
+        'bgName': 'Синий',
+        'bgScreen': 'linear-gradient(90deg, rgba(14,15,84,1) 0%, rgba(31,45,223,1) 100%)',
+        'bgBoard': 'linear-gradient(118.38deg, rgb(53 53 95) -4.6%, rgb(44 49 189) 200.44%)',
+    },
+    {
+        'bgName': 'Зеленый',
+        'bgScreen': 'linear-gradient(90deg, rgba(14,84,21,1) 0%, rgba(31,223,50,1) 100%)',
+        'bgBoard': 'linear-gradient(118.38deg, rgb(41, 60, 44) -4.6%, rgb(72, 99, 73) 200.44%)',
+    },
+    {
+        'bgName': 'Оригинал',
+        'bgScreen': 'linear-gradient(90deg, #29323C 0%, #485563 100%)',
+        'bgBoard': 'linear-gradient(118.38deg, #29323C -4.6%, #485563 200.44%)',
+    }
+];
 
 //#region Функции
 function randomColor() {
@@ -57,6 +81,23 @@ function addDifficultBtns() {
         `;
         difficultList.append(difficultBtn);
     }
+}
+
+addBgColorBtns();
+
+function addBgColorBtns() {
+    bgColorBtnsList.innerHTML = ``;
+    let numBtns = 4;
+    for (let i = 0; i < numBtns; i++) {
+        const bgColorBtn = document.createElement('li');
+        bgColorBtn.innerHTML = `
+        <button class="bgColor-btn" data-bgColor=${colors[i].bgName}>
+          ${colors[i].bgName}
+        </button>
+        `;
+        bgColorBtnsList.append(bgColorBtn);
+    }
+    console.log(colors);
 }
 //#endregion
 
@@ -202,6 +243,42 @@ difficultList.addEventListener('click', (event) => {
         board.style.width = `${size}px`;
         board.style.height = `${size}px`;
         startGame();
+    }
+});
+
+bgColorBtnsList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('bgColor-btn')) {
+        bgColor = event.target.getAttribute('data-bgColor');
+        switch (bgColor) {
+            case colors[0].bgName: {
+                screens.forEach(screen => {
+                    screen.style.background = colors[0].bgScreen;
+                });
+                board.style.background = colors[0].bgBoard;
+                break;
+            }
+            case colors[1].bgName: {
+                screens.forEach(screen => {
+                    screen.style.background = colors[1].bgScreen;
+                });
+                board.style.background = colors[1].bgBoard;
+                break;
+            }
+            case colors[2].bgName: {
+                screens.forEach(screen => {
+                    screen.style.background = colors[2].bgScreen;
+                });
+                board.style.background = colors[2].bgBoard;
+                break;
+            }
+            case colors[3].bgName: {
+                screens.forEach(screen => {
+                    screen.style.background = colors[3].bgScreen;
+                });
+                board.style.background = colors[3].bgBoard;
+                break;
+            }
+        }
     }
 });
 

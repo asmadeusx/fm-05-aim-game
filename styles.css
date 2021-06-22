@@ -23,10 +23,18 @@ body {
 }
 
 .wrapper-colors {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   height: 25px;
   width: 100vw;
   background: black;
-  content: '';
+}
+
+.bgColor-btn {
+  background: white;
+
 }
 
 .wrapper-screens {
@@ -64,7 +72,8 @@ h1 {
 
 .time-list,
 .size-list,
-.difficult-list {
+.difficult-list,
+.bgColorBtns-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
