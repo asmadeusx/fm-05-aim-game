@@ -16,7 +16,12 @@ let timer;
 let score = 0;
 let missCount = 0;
 let bgColor;
-const colors = [
+const gameDifficult = [
+    'Легко', 
+    'Нормально', 
+    'Сложно'
+];
+const bgColors = [
     {
         'bgName': 'Красный',
         'bgScreen': 'linear-gradient(90deg, rgba(121,9,9,1) 0%, rgba(255,107,107,1) 100%)',
@@ -38,6 +43,26 @@ const colors = [
         'bgBoard': 'linear-gradient(118.38deg, #29323C -4.6%, #485563 200.44%)',
     }
 ];
+const btns = [
+    {
+        'parentList': timeList,
+        'numBtns': 6,
+        'btnClass': 'time-btn',
+        'btnData': 'data-time',
+    },
+    {
+        'parentList': difficultList,
+        'numBtns': 3,
+        'btnClass': 'difficult-btn',
+        'btnData': 'data-difficult',
+    },
+    {
+        'parentList': bgColorBtnsList,
+        'numBtns': 4,
+        'btnClass': 'bgColor-btn',
+        'btnData': 'data-bgColor',
+    },
+];
 
 //#region Функции
 function randomColor() {
@@ -47,59 +72,38 @@ function randomColor() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-//#region Добавление Кнопок для выбора параметров игры
-addTimeBtns();
-
-function addTimeBtns() {
-    timeList.innerHTML = ``;
-    let numBtns = 6;
-    for (let i = 1; i <= numBtns; i++) {
-        const timeBtn = document.createElement('li');
-        timeBtn.innerHTML = `
-        <button class="time-btn" data-time='${i}0'>
-          ${i}0 сек
-        </button>
-        `;
-        timeList.append(timeBtn);
+function addBtns(parentList, numBtns, btnClass, btnData) {
+    parentList.innerHTML = ``;
+    let n = numBtns;
+    for (let i = 1; i <= n; i++) {
+        const btn = document.createElement('li');
+        if (btnClass === 'time-btn') {
+            btn.innerHTML = `
+            <button class='${btnClass}' ${btnData}='${i}0'>
+                ${i}0 сек
+            </button>
+            `;
+        } 
+        if (btnClass === 'difficult-btn') {
+            btn.innerHTML = `
+            <button class="difficult-btn" data-difficult=${gameDifficult[i-1]}>
+              ${gameDifficult[i-1]}
+            </button>
+            `;
+        } else if (btnClass === 'bgColor-btn') {
+            btn.innerHTML = `
+            <button class="bgColor-btn" data-bgColor=${bgColors[i-1].bgName}>
+              ${bgColors[i-1].bgName}
+            </button>
+            `;
+            btn.style.background = `${bgColors[i-1].bgScreen}`;
+        }
+        parentList.append(btn);
     }
 }
-
-addDifficultBtns();
-
-function addDifficultBtns() {
-    difficultList.innerHTML = ``;
-    let numBtns = 3;
-    const gameDifficult = [
-        'Легко', 'Нормально', 'Сложно'
-    ];
-    for (let i = 0; i <= numBtns - 1; i++) {
-        const difficultBtn = document.createElement('li');
-        difficultBtn.innerHTML = `
-        <button class="difficult-btn" data-difficult=${gameDifficult[i]}>
-          ${gameDifficult[i]}
-        </button>
-        `;
-        difficultList.append(difficultBtn);
-    }
+for (let i = 0; i < 3; i++) {
+    addBtns(btns[i].parentList, btns[i].numBtns, btns[i].btnClass, btns[i].btnData);
 }
-
-addBgColorBtns();
-
-function addBgColorBtns() {
-    bgColorBtnsList.innerHTML = ``;
-    let numBtns = 4;
-    for (let i = 0; i < numBtns; i++) {
-        const bgColorBtn = document.createElement('li');
-        bgColorBtn.innerHTML = `
-        <button class="bgColor-btn" data-bgColor=${colors[i].bgName}>
-          ${colors[i].bgName}
-        </button>
-        `;
-        bgColorBtnsList.append(bgColorBtn);
-    }
-    console.log(colors);
-}
-//#endregion
 
 function toggleTimer(status) {
     if (status === 'start') {
@@ -250,32 +254,32 @@ bgColorBtnsList.addEventListener('click', (event) => {
     if (event.target.classList.contains('bgColor-btn')) {
         bgColor = event.target.getAttribute('data-bgColor');
         switch (bgColor) {
-            case colors[0].bgName: {
+            case bgColors[0].bgName: {
                 screens.forEach(screen => {
-                    screen.style.background = colors[0].bgScreen;
+                    screen.style.background = bgColors[0].bgScreen;
                 });
-                board.style.background = colors[0].bgBoard;
+                board.style.background = bgColors[0].bgBoard;
                 break;
             }
-            case colors[1].bgName: {
+            case bgColors[1].bgName: {
                 screens.forEach(screen => {
-                    screen.style.background = colors[1].bgScreen;
+                    screen.style.background = bgColors[1].bgScreen;
                 });
-                board.style.background = colors[1].bgBoard;
+                board.style.background = bgColors[1].bgBoard;
                 break;
             }
-            case colors[2].bgName: {
+            case bgColors[2].bgName: {
                 screens.forEach(screen => {
-                    screen.style.background = colors[2].bgScreen;
+                    screen.style.background = bgColors[2].bgScreen;
                 });
-                board.style.background = colors[2].bgBoard;
+                board.style.background = bgColors[2].bgBoard;
                 break;
             }
-            case colors[3].bgName: {
+            case bgColors[3].bgName: {
                 screens.forEach(screen => {
-                    screen.style.background = colors[3].bgScreen;
+                    screen.style.background = bgColors[3].bgScreen;
                 });
-                board.style.background = colors[3].bgBoard;
+                board.style.background = bgColors[3].bgBoard;
                 break;
             }
         }
