@@ -1,5 +1,5 @@
 'use strict';
-
+//#region Переменные и Массивы
 const startBtn = document.querySelector('#start-btn');
 const screens = document.querySelectorAll('.screen');
 const timeList = document.querySelector('#time-list');
@@ -17,12 +17,11 @@ let score = 0;
 let missCount = 0;
 let bgColor;
 const gameDifficult = [
-    'Легко', 
-    'Нормально', 
+    'Легко',
+    'Нормально',
     'Сложно'
 ];
-const bgColors = [
-    {
+const bgColors = [{
         'bgName': 'Красный',
         'bgScreen': 'linear-gradient(90deg, rgba(121,9,9,1) 0%, rgba(255,107,107,1) 100%)',
         'bgBoard': 'linear-gradient(118.38deg, rgb(60, 41, 41) -4.6%, rgb(99, 72, 72) 200.44%)',
@@ -43,8 +42,7 @@ const bgColors = [
         'bgBoard': 'linear-gradient(118.38deg, #29323C -4.6%, #485563 200.44%)',
     }
 ];
-const btns = [
-    {
+const btns = [{
         'parentList': timeList,
         'numBtns': 6,
         'btnClass': 'time-btn',
@@ -64,6 +62,8 @@ const btns = [
     },
 ];
 
+//#endregion
+
 //#region Функции
 function randomColor() {
     let r = getRandomNumber(0, 255);
@@ -76,33 +76,43 @@ function addBtns(parentList, numBtns, btnClass, btnData) {
     parentList.innerHTML = ``;
     let n = numBtns;
     for (let i = 1; i <= n; i++) {
-        const btn = document.createElement('li');
+        const elem = document.createElement('li');
         if (btnClass === 'time-btn') {
-            btn.innerHTML = `
+            elem.innerHTML = `
             <button class='${btnClass}' ${btnData}='${i}0'>
                 ${i}0 сек
             </button>
             `;
-        } 
+        }
         if (btnClass === 'difficult-btn') {
-            btn.innerHTML = `
-            <button class="difficult-btn" data-difficult=${gameDifficult[i-1]}>
+            elem.innerHTML = `
+            <button class='${btnClass}' ${btnData}=${gameDifficult[i-1]}>
               ${gameDifficult[i-1]}
             </button>
             `;
-        } else if (btnClass === 'bgColor-btn') {
-            btn.innerHTML = `
-            <button class="bgColor-btn" data-bgColor=${bgColors[i-1].bgName}>
+        }
+        if (btnClass === 'bgColor-btn') {
+            elem.innerHTML = `
+            <button class='${btnClass}' ${btnData}=${bgColors[i-1].bgName}>
               ${bgColors[i-1].bgName}
             </button>
             `;
-            btn.style.background = `${bgColors[i-1].bgScreen}`;
+            // document.querySelector('.bgColor-btn').style.background = `${bgColors[i-1].bgScreen}`;
         }
-        parentList.append(btn);
+        parentList.append(elem);
     }
 }
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < btns.length; i++) {
     addBtns(btns[i].parentList, btns[i].numBtns, btns[i].btnClass, btns[i].btnData);
+}
+
+coloringBgBtns();
+
+function coloringBgBtns() {
+    const bgColorsBtns = document.querySelectorAll('.bgColor-btn');
+    for (let i = 0; i < bgColorsBtns.length; i++) {
+        bgColorsBtns[i].style.background = `${bgColors[i].bgScreen}`;
+    }
 }
 
 function toggleTimer(status) {
