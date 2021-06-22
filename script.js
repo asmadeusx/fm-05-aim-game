@@ -25,6 +25,7 @@ function randomColor() {
 
 //#region Добавление Кнопок для выбора параметров игры
 addTimeBtns();
+
 function addTimeBtns() {
     timeList.innerHTML = ``;
     let numBtns = 6;
@@ -40,6 +41,7 @@ function addTimeBtns() {
 }
 
 addDifficultBtns();
+
 function addDifficultBtns() {
     difficultList.innerHTML = ``;
     let numBtns = 3;
@@ -101,26 +103,36 @@ function decreaseTime() {
 
 function circleFading() {
     const circle = document.querySelector('.circle');
-    switch(difficult) {
-        case 'Легко': {
-            circle.classList.add('circleFadingEasy');
-            setTimeout(() => {circle.classList.add('circleFaded');}, 5000);
-            break;
+    if (circle) {
+        switch (difficult) {
+            case 'Легко': {
+
+                circle.classList.add('circleFadingEasy');
+                setTimeout(() => {
+                    circle.classList.add('circleFaded');
+                }, 5000);
+                break;
+            }
+            case 'Нормально': {
+                circle.classList.add('circleFadingMedium');
+                setTimeout(() => {
+                    circle.classList.add('circleFaded');
+                }, 4000);
+                break;
+            }
+            case 'Сложно': {
+                circle.classList.add('circleFadingHard');
+                setTimeout(() => {
+                    circle.classList.add('circleFaded');
+                }, 500);
+                break;
+            }
         }
-        case 'Нормально': {
-            circle.classList.add('circleFadingMedium');
-            setTimeout(() => {circle.classList.add('circleFaded');}, 4000);
-            break;
-        }
-        case 'Сложно': {
-            circle.classList.add('circleFadingHard');
-            setTimeout(() => {circle.classList.add('circleFaded');}, 500);
-            break;
-        }
-    }   
+    }
 }
 
 setInterval(removeFadedCircle, 200);
+
 function removeFadedCircle() {
     const circle = document.querySelector('.circle');
     if (circle && circle.classList.contains('circleFaded')) {
@@ -173,8 +185,7 @@ difficultList.addEventListener('click', (event) => {
     if (event.target.classList.contains('difficult-btn')) {
         difficult = (event.target.getAttribute('data-difficult'));
         screens[2].classList.add('up');
-        console.log(difficult);
-        switch(difficult) {
+        switch (difficult) {
             case 'Легко': {
                 size = 300;
                 break;
@@ -202,7 +213,7 @@ board.addEventListener('click', (event) => {
     } else if (event.target.classList.contains('board') && event.target.classList.contains('GAME')) {
         missCount++;
     }
-    
+
 });
 
 startAgainBtn.addEventListener('click', () => {
