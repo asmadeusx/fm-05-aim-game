@@ -3,29 +3,32 @@
 const startBtn = document.querySelector('#start');
 const screens = document.querySelectorAll('.screen');
 const timeList = document.querySelector('#time-list');
+const sizeList = document.querySelector('#size-list');
+const difficultList = document.querySelector('#difficult-list');
 const timeEl = document.querySelector('#time');
 const board = document.querySelector('#board');
+const startAgainBtn = document.querySelector('#startAgain-btn');
 let time = 0;
-let timer; // Добавлено в ДЗ.
+let size = 500;
+let timer;
 let score = 0;
 let missCount = 0;
 
-//#region Код с ДЗ
-// Случайный RGB цвет для кружков
+//#region Функции
 function randomColor() {
     let r = getRandomNumber(0, 255);
     let g = getRandomNumber(0, 255);
     let b = getRandomNumber(0, 255);
     return `rgb(${r}, ${g}, ${b})`;
 }
-// Генератор кнопок с выбором времени игры
+
+//#region Добавление Кнопок для выбора параметров игры
 addTimeBtns();
 function addTimeBtns() {
     timeList.innerHTML = ``;
     let numBtns = 6;
     for (let i = 1; i <= numBtns; i++) {
         const timeBtn = document.createElement('li');
-        // timeBtn.classList.add('time-btn');
         timeBtn.innerHTML = `
         <button class="time-btn" data-time='${i}0'>
           ${i}0 сек
@@ -34,7 +37,44 @@ function addTimeBtns() {
         timeList.append(timeBtn);
     }
 }
-// Функция включения и остановки таймера игры
+
+addSizeBtns();
+function addSizeBtns() {
+    sizeList.innerHTML = ``;
+    let numBtns = 3;
+    const boardSizes = [
+        '300', '500', '700'
+    ];
+    for (let i = 0; i <= numBtns - 1; i++) {
+        const sizeBtn = document.createElement('li');
+        sizeBtn.innerHTML = `
+        <button class="size-btn" data-size=${boardSizes[i]}>
+          ${boardSizes[i]}
+        </button>
+        `;
+        sizeList.append(sizeBtn);
+    }
+}
+
+addDifficultBtns();
+function addDifficultBtns() {
+    difficultList.innerHTML = ``;
+    let numBtns = 3;
+    const gameDifficult = [
+        'Легко', 'Нормально', 'Сложно'
+    ];
+    for (let i = 0; i <= numBtns - 1; i++) {
+        const difficultBtn = document.createElement('li');
+        difficultBtn.innerHTML = `
+        <button class="difficult-btn" data-difficult=${gameDifficult[i]}>
+          ${gameDifficult[i]}
+        </button>
+        `;
+        difficultList.append(difficultBtn);
+    }
+}
+//#endregion
+
 function toggleTimer(status) {
     if (status === 'start') {
         timer = setInterval(decreaseTime, 1000);
@@ -43,31 +83,23 @@ function toggleTimer(status) {
     }
 }
 
-//#endregion
-
-
-//#region Код с Урока
 function setTime(value) {
     timeEl.innerHTML = `00:${value}`;
 }
 
 function finishGame() {
-    // Добавлены "Промахи" из ДЗ
     board.innerHTML = `
     <h1>Cчет: <span class="primary">${score}</span></h1>
     <h3>Промахи: <span class="primary">${missCount}</span></h3>
     `;
     timeEl.parentNode.classList.add('hide');
-    // Добавлено условие "состояние игры" для отслеживания промахов.
     board.classList.remove('GAME');
     toggleTimer('stop');
 }
 
 function startGame() {
-    // setInterval(decreaseTime, 1000);
     createRandomCircle();
     setTime(time);
-    // Добавлено "состояние игры" для отслеживания промахов.
     board.classList.add('GAME');
     toggleTimer('start');
 }
@@ -81,6 +113,22 @@ function decreaseTime() {
             current = `0${current}`;
         }
         setTime(current);
+    }
+}
+
+function circleFading() {
+    const circle = document.querySelector('.circle');
+    circle.classList.add('circleFading');
+    setTimeout(() => {circle.classList.add('circleFaded');}, 4000);
+}
+
+setInterval(deleteFadedCircle, 500);
+function deleteFadedCircle() {
+    const circle = document.querySelector('.circle');
+    if (circle && circle.classList.contains('circleFaded')) {
+        circle.remove();
+        missCount++;
+        createRandomCircle();
     }
 }
 
@@ -100,7 +148,8 @@ function createRandomCircle() {
     circle.style.top = `${y}px`;
     circle.style.left = `${x}px`;
 
-    circle.style.background = randomColor(); // Код из ДЗ
+    circle.style.background = randomColor();
+    setTimeout(circleFading, 700);
 
     board.append(circle);
 }
@@ -108,6 +157,7 @@ function createRandomCircle() {
 function getRandomNumber(minValue, maxValue) {
     return (Math.random() * (maxValue - minValue) + minValue);
 }
+//#endregion
 
 //#region Обработчики Событий
 startBtn.addEventListener('click', (event) => {
@@ -119,10 +169,25 @@ timeList.addEventListener('click', (event) => {
     if (event.target.classList.contains('time-btn')) {
         time = parseInt(event.target.getAttribute('data-time'));
         screens[1].classList.add('up');
+    }
+});
+
+sizeList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('size-btn')) {
+        size = parseInt(event.target.getAttribute('data-size'));
+        screens[2].classList.add('up');
+        board.style.width = `${size}px`;
+        board.style.height = `${size}px`;
+    }
+});
+
+difficultList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('difficult-btn')) {
+        screens[3].classList.add('up');
         startGame();
     }
 });
-// Добавлено условие "состояние игры" для отслеживания промахов.
+
 board.addEventListener('click', (evemt) => {
     if (event.target.classList.contains('circle')) {
         score++;
@@ -133,6 +198,10 @@ board.addEventListener('click', (evemt) => {
     }
     
 });
-//#endregion
 
+startAgainBtn.addEventListener('click', () => {
+    screens.forEach((screen) => {
+        screen.classList.remove('up');
+    });
+});
 //#endregion

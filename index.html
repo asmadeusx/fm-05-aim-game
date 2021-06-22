@@ -9,36 +9,40 @@
 </head>
 
 <body>
-  <div class="screen">
+  <div class="screen" id="welcome">
     <h1>Aim Training</h1>
     <a href="#" class="start" id="start">Начать игру</a>
   </div>
 
-  <div class="screen">
-    <h1>Выберите время</h1>
+  <div class="screen" id="parametersTime">
+    <h1>Продолжительность игры</h1>
     <ul class="time-list" id="time-list">
-      <li>
-        <button class="time-btn" data-time='10'>
-          10 сек
-        </button>
-      </li>
-      <li>
-        <button class="time-btn" data-time='20'>
-          20 сек
-        </button>
-      </li>
-      <li>
-        <button class="time-btn" data-time='30'>
-          30 сек
-        </button>
-      </li>
+      <!-- Кнопки Генерируются из JS -->
+    </ul>
+  </div>
+  
+  <div class="screen" id="parametersSize">
+    <h1>Размер игрового поля</h1>
+    <ul class="size-list" id="size-list">
+      <!-- Кнопки Генерируются из JS -->
     </ul>
   </div>
 
-  <div class="screen">
+  <div class="screen" id="parametersDifficult">
+    <h1>Сложнось игры</h1>
+    <ul class="difficult-list" id="difficult-list">
+      <!-- Кнопки Генерируются из JS -->
+    </ul>
+  </div>
+
+  <div class="screen" id="gameBoard">
     <h3>Осталось <span id="time">00:00</span></h3>
     <div class="board" id="board"></div>
+    <button class="startAgain-btn" id="startAgain-btn">
+      Вернуться на главную
+    </button>
   </div>
+
   <script src="script.js"></script>
 </body>
 

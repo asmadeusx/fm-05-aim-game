@@ -27,8 +27,8 @@ a:hover {
 }
 
 h1 {
-  line-height: 1.4;
-  font-size: 4rem;
+  line-height: 0;
+  font-size: 3.5rem;
 }
 
 .screen {
@@ -46,7 +46,9 @@ h1 {
   margin-top: -100vh;
 }
 
-.time-list {
+.time-list,
+.size-list,
+.difficult-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -54,11 +56,16 @@ h1 {
   padding: 0;
 }
 
-.time-list li {
+.time-list li,
+.size-list li,
+.difficult-list li {
   margin: 10px;
 }
 
-.time-btn {
+.time-btn,
+.size-btn,
+.difficult-btn,
+.startAgain-btn {
   background-color: transparent;
   border: 2px solid #C0C0C0;
   color: #fff;
@@ -68,7 +75,14 @@ h1 {
   font-size: 1.5rem;
 }
 
-.time-btn:hover {
+.startAgain-btn {
+  margin-top: 20px;
+}
+
+.time-btn:hover,
+.size-btn:hover,
+.difficult-btn:hover,
+.startAgain-btn:hover {
   border: 2px solid #16D9E3;
   color: #16D9E3;
 }
@@ -92,7 +106,7 @@ h1 {
   box-shadow: -8px -8px 20px #2A333D, 10px 7px 20px #475462;
   border-radius: 30px;
   overflow: hidden;
-  flex-direction: column; /* Добавлено из ДЗ */
+  flex-direction: column;
 }
 
 .circle {
@@ -100,4 +114,10 @@ h1 {
   position: absolute;
   border-radius: 50%;
   cursor: pointer;
+  opacity: 1;
+}
+
+.circleFading {
+  opacity: 0;
+  transition: opacity 5s ease-out;
 }
