@@ -129,8 +129,9 @@ function setTime(value) {
 }
 
 function finishGame() {
-    let accuracy = ((100 - ((missCount / score) * 100))).toFixed(0);
-    if (accuracy <= 0) {
+    // let accuracy = ((100 - ((missCount / score) * 100))).toFixed(0);
+    let accuracy = ( ( missCount / score ) * 100).toFixed(0);
+    if (accuracy <= 0 || score === 0) {
         accuracy = 0;
     }
     board.innerHTML = `
