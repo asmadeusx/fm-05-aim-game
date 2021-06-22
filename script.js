@@ -16,6 +16,7 @@ let timer;
 let score = 0;
 let missCount = 0;
 let bgColor;
+let timeValues;
 const gameDifficult = [
     'Легко',
     'Нормально',
@@ -128,10 +129,15 @@ function setTime(value) {
 }
 
 function finishGame() {
+    let accuracy = ((100 - ((missCount / score) * 100))).toFixed(0);
+    if (accuracy <= 0) {
+        accuracy = 0;
+    }
     board.innerHTML = `
     <h1>Cчет: <span class="primary">${score}</span></h1>
     <h3>Промахи: <span class="primary">${missCount}</span></h3>
-    <h3>Меткость: <span class="primary">${((100 - ((missCount / score) * 100))).toFixed(0)}% </span></h3>
+    <h3>Меткость: <span class="primary">${accuracy}% </span></h3>
+    <h4>"${difficult}", ${timeValues} сек.</h4>
     `;
     timeEl.parentNode.classList.add('hide');
     board.classList.remove('GAME');
@@ -232,7 +238,8 @@ startBtn.addEventListener('click', () => {
 
 timeList.addEventListener('click', (event) => {
     if (event.target.classList.contains('time-btn')) {
-        time = parseInt(event.target.getAttribute('data-time'));
+        time = parseInt(event.target.getAttribute('data-time')); 
+        timeValues = parseInt(event.target.getAttribute('data-time'));
         screens[1].classList.add('up');
     }
 });
